@@ -1,0 +1,21 @@
+{
+    "PluginConfiguration": {
+        "Network": 860833102,
+        "MaxGasInvoke": 20000000,
+        "Jobs": [
+            {
+                "Name": "MyJob",
+                "Expression": "0 */5 * * * *",
+                "Contract": {
+                    "ScriptHash": "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5",
+                    "Invoke": "_task"
+                },
+                "Wallet": {
+                    "Path": "test.json",
+                    "Password": "12345",
+                    "Account": "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5"
+                }
+            }
+        ]
+    }
+}

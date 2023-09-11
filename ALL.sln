@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3002EB89-0674-4B08-B155-353140FCCFCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".editorconfig", ".editorconfig", "{D648972B-5902-462D-A955-FFDBF4AFE79C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E6DF2325-582C-4859-B3ED-8887A3326D3D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo.Plugins.Cron", "src\Neo.Plugins.Cron\Neo.Plugins.Cron.csproj", "{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA} = {3002EB89-0674-4B08-B155-353140FCCFCD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5ED09B52-78F7-49E0-8A0B-1A196F12118B}
+	EndGlobalSection
+EndGlobal

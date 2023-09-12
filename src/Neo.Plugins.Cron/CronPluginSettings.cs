@@ -12,7 +12,7 @@ public class CronPluginSettings
 {
     public uint Network { get; private init; }
     public long MaxGasInvoke { get; private init; }
-    public CronJobSettings[] Jobs { get; private init; }
+    public CronJobSettings[] Jobs { get; private set; }
 
     public static CronPluginSettings Current { get; private set; }
 
@@ -24,13 +24,15 @@ public class CronPluginSettings
             Jobs = Array.Empty<CronJobSettings>(),
         };
 
-    public static void Load(IConfigurationSection section) =>
+    public static void Load(IConfigurationSection section)
+    {
         Current = new()
         {
             Network = section.GetValue(nameof(Network), Default.Network),
             MaxGasInvoke = section.GetValue(nameof(MaxGasInvoke), Default.MaxGasInvoke),
-            Jobs = section.GetValue(nameof(Jobs), Default.Jobs),
+            Jobs = section.GetSection(nameof(Jobs)).Get<CronJobSettings[]>() ?? Default.Jobs,
         };
+    }
 }
 
 public class CronJobSettings

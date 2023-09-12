@@ -54,7 +54,7 @@ internal class CronScheduler : IDisposable
             var now = Precision();
 
             if (_tasks.TryGetValue(now, out var jobs) == true)
-                _ = jobs.Select(s => Task.Run(async () => await s.Run(token)));
+                await Task.WhenAll(jobs.Select(s => Task.Run(async () => await s.Run(token)))).ConfigureAwait(false);
             Entries.Values.ToList().ForEach(GetDateTimeOccurrences);
         }
     }

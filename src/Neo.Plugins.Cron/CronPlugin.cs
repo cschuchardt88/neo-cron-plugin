@@ -38,8 +38,9 @@ public partial class CronPlugin : Plugin
 
     protected override void OnSystemLoaded(NeoSystem system)
     {
-        if (NeoSystem.Settings.Network != CronPluginSettings.Current.Network)
+        if (system.Settings.Network != CronPluginSettings.Current.Network)
             return;
+        NeoSystem = system;
         CronPluginSettings.Current.Jobs.ToList().ForEach(CreateJob);
     }
 }

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Neo.Plugins.Cron": {
+      "commandName": "Project"
+    },
+    "neo-cli": {
+      "commandName": "Executable",
+      "executablePath": "C:\\tmp\\neo-node\\neo-cli\\bin\\Debug\\net7.0\\neo-cli.exe",
+      "workingDirectory": "C:\\tmp\\neo-node\\neo-cli\\bin\\Debug\\net7.0"
+    }
+  }
+}

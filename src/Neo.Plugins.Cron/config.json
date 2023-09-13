@@ -1,21 +1,22 @@
 {
-    "PluginConfiguration": {
-        "Network": 860833102,
-        "MaxGasInvoke": 20000000,
-        "Jobs": [
-            {
-                "Name": "MyJob",
-                "Expression": "0 */5 * * * *",
-                "Contract": {
-                    "ScriptHash": "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5",
-                    "Invoke": "_task"
-                },
-                "Wallet": {
-                    "Path": "test.json",
-                    "Password": "12345",
-                    "Account": "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5"
-                }
-            }
-        ]
-    }
+  "PluginConfiguration": {
+    "Network": 894710606,
+    "MaxGasInvoke": 20000000,
+    "CronJobPath": "jobs",
+    "Jobs": [
+      {
+        "Name": "MyJob",
+        "Expression": "*/1 * * * *",
+        "Contract": {
+          "ScriptHash": "0x0313bdad26721ae6867df516139d4e52f749f360",
+          "Invoke": "sayHello"
+        },
+        "Wallet": {
+          "Path": "wallets/main.json",
+          "Password": "main",
+          "Account": "0x951bf95707bb92a0c89d4308095697af60474472"
+        }
+      }
+    ]
+  }
 }

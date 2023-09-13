@@ -22,7 +22,7 @@ internal class CronScheduler : IDisposable
         _tasks = new();
         Entries = new();
         _cancelWaitTask = new();
-        _timer = new(TimeSpan.FromSeconds(30));
+        _timer = new(TimeSpan.FromSeconds(1));
         _ = Task.Run(async () => await WaitForTimer(_cancelWaitTask.Token));
     }
 
@@ -49,13 +49,19 @@ internal class CronScheduler : IDisposable
 
     private async Task WaitForTimer(CancellationToken token)
     {
+        DateTime lastRun = default;
         while (await _timer.WaitForNextTickAsync(token))
         {
+            Entries.Values.ToList().ForEach(GetDateTimeOccurrences);
+
             var now = Precision();
+
+            if (lastRun == now)
+                continue;
 
             if (_tasks.TryGetValue(now, out var jobs) == true)
                 await Task.WhenAll(jobs.Select(s => Task.Run(async () => await s.Run(token)))).ConfigureAwait(false);
-            Entries.Values.ToList().ForEach(GetDateTimeOccurrences);
+            lastRun = now;
         }
     }
 
@@ -64,10 +70,13 @@ internal class CronScheduler : IDisposable
         var now = DateTime.UtcNow;
         foreach (var occurrence in entry.Schedule.GetNextOccurrences(now, now.AddMinutes(1)))
         {
-            if (_tasks.TryGetValue(occurrence, out var jobs) == true)
-                jobs.Add(entry.Job);
-            else
+            if (_tasks.TryGetValue(occurrence, out var jobs) == false)
                 _tasks[occurrence] = new() { entry.Job };
+            else
+            {
+                if (jobs.SingleOrDefault(s => ReferenceEquals(s, entry.Job)) == null)
+                    jobs.Add(entry.Job);
+            }
         }
     }
 }

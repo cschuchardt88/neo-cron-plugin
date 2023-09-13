@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E6DF2325-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronTab", "src\Neo.Plugins.Cron\CronTab.csproj", "{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neo.Plugins.Cron", "src\Neo.Plugins.Cron\Neo.Plugins.Cron.csproj", "{36BA3BAF-D0CE-4D32-A314-57E6B33FB4E5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36BA3BAF-D0CE-4D32-A314-57E6B33FB4E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36BA3BAF-D0CE-4D32-A314-57E6B33FB4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36BA3BAF-D0CE-4D32-A314-57E6B33FB4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36BA3BAF-D0CE-4D32-A314-57E6B33FB4E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

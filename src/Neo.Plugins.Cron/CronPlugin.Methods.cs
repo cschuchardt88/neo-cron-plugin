@@ -33,7 +33,7 @@ public partial class CronPlugin
                 {
                     var taskSchedule = CrontabSchedule.TryParse(settings.Expression);
                     if (taskSchedule != null)
-                        _ = _scheduler.TryAdd(new CronEntry(taskSchedule, cTask), out _);
+                        _ = _scheduler.TryAdd(new CronEntry(taskSchedule, cTask, settings.RunOnce), out _);
                     else
                         ConsoleHelper.Error($"Cron:Job:[\"{settings.Name}\"]::\"Expression is invalid.\"");
                 }

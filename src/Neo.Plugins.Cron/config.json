@@ -6,6 +6,7 @@
       {
         "Name": "MyJob",
         "Expression": "* * * * *",
+        "RunOnce": true,
         "Contract": {
           "ScriptHash": "0x0313bdad26721ae6867df516139d4e52f749f360",
           "Method": "sayHello",

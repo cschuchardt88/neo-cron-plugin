@@ -52,7 +52,7 @@ internal class CronScheduler : IDisposable
         DateTime lastRun = default;
         while (await _timer.WaitForNextTickAsync(token) && token.IsCancellationRequested == false)
         {
-            Entries.Values.ToList().ForEach(GetDateTimeOccurrences);
+            Entries.ToList().ForEach(GetDateTimeOccurrences);
 
             var now = Precision();
 
@@ -65,18 +65,20 @@ internal class CronScheduler : IDisposable
         }
     }
 
-    private void GetDateTimeOccurrences(CronEntry entry)
+    private void GetDateTimeOccurrences(KeyValuePair<Guid, CronEntry> item)
     {
         var now = DateTime.UtcNow;
-        foreach (var occurrence in entry.Schedule.GetNextOccurrences(now, now.AddMinutes(1)))
+        foreach (var occurrence in item.Value.Schedule.GetNextOccurrences(now, now.AddMinutes(1)))
         {
             if (_tasks.TryGetValue(occurrence, out var jobs) == false)
-                _tasks[occurrence] = new() { entry.Job };
+                _tasks[occurrence] = new() { item.Value.Job };
             else
             {
-                if (jobs.SingleOrDefault(s => ReferenceEquals(s, entry.Job)) == null)
-                    jobs.Add(entry.Job);
+                if (jobs.SingleOrDefault(s => ReferenceEquals(s, item.Value.Job)) == null)
+                    jobs.Add(item.Value.Job);
             }
+            if (item.Value.RunOnce == true)
+                Entries.TryRemove(item);
         }
     }
 }
@@ -84,13 +86,16 @@ internal class CronScheduler : IDisposable
 internal class CronEntry
 {
     public ICronJob Job { get; }
+    public bool RunOnce { get; }
     public CrontabSchedule Schedule { get; }
 
     internal CronEntry(
         CrontabSchedule schedule,
-        ICronJob job)
+        ICronJob job,
+        bool runOnce)
     {
         Schedule = schedule;
         Job = job;
+        RunOnce = runOnce;
     }
 }

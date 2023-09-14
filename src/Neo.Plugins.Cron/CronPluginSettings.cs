@@ -39,6 +39,7 @@ public class CronJobSettings
 {
     public string Name { get; set; }
     public string Expression { get; set; }
+    public bool RunOnce { get; set; }
     public CronJobContractSettings Contract { get; set; }
     public CronJobWalletSettings Wallet { get; set; }
 }

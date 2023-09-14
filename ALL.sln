@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E6DF2325-5
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CronTab", "src\Neo.Plugins.Cron\CronTab.csproj", "{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab", "src\Neo.Plugins.Cron\Crontab.csproj", "{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

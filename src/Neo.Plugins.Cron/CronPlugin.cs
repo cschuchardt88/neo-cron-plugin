@@ -11,8 +11,8 @@ namespace Neo.Plugins.Cron;
 
 public partial class CronPlugin : Plugin
 {
-    public override string Name => "CronJob";
-    public override string Description => "Cron job task scheduler for invoking contracts.";
+    public override string Name => "Crontab";
+    public override string Description => "Crontab task scheduler for executing blockchain tasks.";
 
     internal static NeoSystem NeoSystem { get; private set; }
 
@@ -20,15 +20,11 @@ public partial class CronPlugin : Plugin
 
     public CronPlugin()
     {
-        Blockchain.Committing += OnBlockchainCommitting;
-        Blockchain.Committed += OnBlockchainCommitted;
         _scheduler = new();
     }
 
     public override void Dispose()
     {
-        Blockchain.Committing -= OnBlockchainCommitting;
-        Blockchain.Committed -= OnBlockchainCommitted;
         _scheduler.Dispose();
         GC.SuppressFinalize(this);
     }

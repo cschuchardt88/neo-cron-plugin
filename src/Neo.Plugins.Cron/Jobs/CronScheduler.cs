@@ -50,7 +50,7 @@ internal class CronScheduler : IDisposable
     private async Task WaitForTimer(CancellationToken token)
     {
         DateTime lastRun = default;
-        while (await _timer.WaitForNextTickAsync(token))
+        while (await _timer.WaitForNextTickAsync(token) && token.IsCancellationRequested == false)
         {
             Entries.Values.ToList().ForEach(GetDateTimeOccurrences);
 

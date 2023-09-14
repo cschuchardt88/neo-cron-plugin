@@ -4,7 +4,6 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-using Neo.Ledger;
 using Neo.Plugins.Cron.Jobs;
 
 namespace Neo.Plugins.Cron;

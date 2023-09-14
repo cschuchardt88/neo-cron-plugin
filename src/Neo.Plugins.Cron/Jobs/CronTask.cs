@@ -21,7 +21,7 @@ internal class CronTask : ICronJob
         {
             Name = settings.Name,
             Expression = settings.Expression,
-            Contract = new(UInt160.Parse(settings.Contract.ScriptHash), settings.Contract.Invoke),
+            Contract = new(UInt160.Parse(settings.Contract.ScriptHash), settings.Contract.Method, settings.Contract.Params),
             Wallet = Wallet.Open(settings.Wallet.Path, settings.Wallet.Password, CronPlugin.NeoSystem.Settings),
             Sender = UInt160.Parse(settings.Wallet.Account),
         };

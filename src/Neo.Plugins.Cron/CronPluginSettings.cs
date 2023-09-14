@@ -46,7 +46,14 @@ public class CronJobSettings
 public class CronJobContractSettings
 {
     public string ScriptHash { get; set; }
-    public string Invoke { get; set; }
+    public string Method { get; set; }
+    public CronJobContractParameterSettings[] Params { get; set; }
+}
+
+public class CronJobContractParameterSettings
+{
+    public string Type { get; set; }
+    public string Value { get; set; }
 }
 
 public class CronJobWalletSettings

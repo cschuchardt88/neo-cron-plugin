@@ -10,12 +10,15 @@ internal class CronContract
 {
     public UInt160 ScriptHash { get; private set; }
     public string Method { get; private set; }
+    public CronJobContractParameterSettings[] Params { get; private set; }
 
     public CronContract(
         UInt160 scriptHash,
-        string method)
+        string method,
+        CronJobContractParameterSettings[] args)
     {
         ScriptHash = scriptHash;
         Method = method;
+        Params = args;
     }
 }

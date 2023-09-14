@@ -18,13 +18,14 @@ public partial class CronPlugin
         {
             if (File.Exists(settings.Wallet.Path) == false)
                 ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"{settings.Wallet.Path} does not exist.\"");
-            if (string.IsNullOrEmpty(settings.Contract?.Invoke))
+            if (string.IsNullOrEmpty(settings.Contract?.Method))
                 ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"Method name is invalid.\"");
             else
             {
-                settings.Contract.Invoke = settings.Contract.Invoke.Length > 1 ?
-                    settings.Contract.Invoke[0].ToString().ToLowerInvariant() + settings.Contract.Invoke[1..] :
-                    settings.Contract.Invoke[0].ToString().ToLowerInvariant();
+                settings.Contract.Method = settings.Contract.Method.Length > 1 ?
+                    settings.Contract.Method[0].ToString().ToLowerInvariant() + settings.Contract.Method[1..] :
+                    settings.Contract.Method[0].ToString().ToLowerInvariant();
+                settings.Contract.Params ??= Array.Empty<CronJobContractParameterSettings>();
                 var cTask = CronTask.Create(settings);
                 if (cTask.Wallet == null)
                     ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"Invalid password.\"");

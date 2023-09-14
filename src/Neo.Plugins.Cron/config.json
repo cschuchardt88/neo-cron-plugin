@@ -1,15 +1,15 @@
 {
   "PluginConfiguration": {
     "Network": 894710606,
-    "MaxGasInvoke": 20000000,
-    "CronJobPath": "jobs",
+    "MaxGasInvoke": 2000000000,
     "Jobs": [
       {
         "Name": "MyJob",
-        "Expression": "*/1 * * * *",
+        "Expression": "* * * * *",
         "Contract": {
           "ScriptHash": "0x0313bdad26721ae6867df516139d4e52f749f360",
-          "Invoke": "sayHello"
+          "Method": "sayHello",
+          "Params": []
         },
         "Wallet": {
           "Path": "wallets/main.json",

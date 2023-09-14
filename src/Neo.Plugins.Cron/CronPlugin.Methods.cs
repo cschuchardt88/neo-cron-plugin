@@ -24,7 +24,17 @@ public partial class CronPlugin
                 var jobConfigRoot = new ConfigurationBuilder()
                     .AddJsonFile(filename, false, false)
                     .Build();
-                CreateJob(CronJobSettings.Load(jobConfigRoot, filename));
+                switch (jobConfigRoot.GetValue(nameof(ICronJob.Type), CronJobType.Basic))
+                {
+                    case CronJobType.Basic:
+                        CreateBasicJob(CronJobBasicSettings.Load(jobConfigRoot, filename));
+                        break;
+                    case CronJobType.Transfer:
+                        CreateTransferJob(CronJobTransferSettings.Load(jobConfigRoot, filename));
+                        break;
+                    default:
+                        break;
+                }
             }
             catch (InvalidDataException)
             {
@@ -33,7 +43,21 @@ public partial class CronPlugin
         }
     }
 
-    private void CreateJob(CronJobSettings settings)
+    private void CreateTransferJob(CronJobTransferSettings settings)
+    {
+        try
+        {
+            if (File.Exists(settings.Wallet.Path) == false)
+                ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"{settings.Wallet.Path} does not exist.\"");
+            
+        }
+        catch (FormatException)
+        {
+            ConsoleHelper.Error($"Cron:Job:[\"{settings.Name}\"]::\"Invalid address format.\"");
+        }
+    }
+
+    private void CreateBasicJob(CronJobBasicSettings settings)
     {
         try
         {
@@ -46,7 +70,7 @@ public partial class CronPlugin
                 settings.Contract.Method = settings.Contract.Method.Length > 1 ?
                     settings.Contract.Method[0].ToString().ToLowerInvariant() + settings.Contract.Method[1..] :
                     settings.Contract.Method[0].ToString().ToLowerInvariant();
-                var cTask = CronTask.Create(settings);
+                var cTask = CronBasicJob.Create(settings);
                 if (cTask.Wallet == null)
                     ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"Invalid password.\"");
                 else
@@ -63,5 +87,14 @@ public partial class CronPlugin
         {
             ConsoleHelper.Error($"Cron:Job:[\"{settings.Name}\"]::\"Invalid address format.\"");
         }
+    }
+
+    private void CreateJobEntry(ICronJobSettings settings, ICronJob job)
+    {
+        var taskSchedule = CrontabSchedule.TryParse(settings.Expression);
+        if (taskSchedule != null)
+            _ = _scheduler.TryAdd(new CronEntry(taskSchedule, job, settings), out _);
+        else
+            ConsoleHelper.Error($"Cron:Job:[\"{settings.Name}\"]::\"Expression is invalid.\"");
     }
 }

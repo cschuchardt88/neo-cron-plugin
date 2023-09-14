@@ -95,7 +95,7 @@ internal class CronScheduler : IDisposable
 internal class CronEntry
 {
     public ICronJob Job { get; }
-    public CronJobSettings Settings { get; }
+    public ICronJobSettings Settings { get; }
     public CrontabSchedule Schedule { get; }
     public bool IsEnabled { get; internal set; }
     public DateTime LastRunTime { get; internal set; }
@@ -103,7 +103,7 @@ internal class CronEntry
     internal CronEntry(
         CrontabSchedule schedule,
         ICronJob job,
-        CronJobSettings settings)
+        ICronJobSettings settings)
     {
         Schedule = schedule;
         Job = job;

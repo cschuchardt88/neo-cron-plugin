@@ -4,16 +4,12 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-using Neo.Wallets;
-
 namespace Neo.Plugins.Cron.Jobs;
 
-internal interface ICronJob
+internal enum CronJobType : byte
 {
-    CronJobType Type { get; }
-    string Name { get; }
-    string Expression { get; }
-    Wallet Wallet { get; }
-    UInt160 Sender { get; } 
-    Task Run(CancellationToken cancellationToken = default);
+    Basic = 0x00,
+    Transfer = 0x01,
+    CreateAddress = 0x02,
+    CreateWallet = 0x03,
 }

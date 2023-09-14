@@ -5,8 +5,8 @@
     },
     "neo-cli": {
       "commandName": "Executable",
-      "executablePath": "C:\\tmp\\neo-node\\neo-cli\\bin\\Debug\\net7.0\\neo-cli.exe",
-      "workingDirectory": "C:\\tmp\\neo-node\\neo-cli\\bin\\Debug\\net7.0"
+      "executablePath": "C:\\tmp\\neo-cli\\neo-cli.exe",
+      "workingDirectory": "C:\\tmp\\neo-cli"
     }
   }
 }

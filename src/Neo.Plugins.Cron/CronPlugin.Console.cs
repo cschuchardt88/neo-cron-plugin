@@ -22,10 +22,17 @@ public partial class CronPlugin
             ConsoleHelper.Info("      Name: ", $"\"{job.Value.Settings.Name}\"");
             ConsoleHelper.Info("Expression: ", $"{job.Value.Settings.Expression}");
             ConsoleHelper.Info("   RunOnce: ", $"{job.Value.Settings.RunOnce}");
-            if (job.Value.LastRunTime > CronScheduler.PrecisionMinute())
+            if (job.Value.LastRunTime != default && job.Value.LastRunTime > CronScheduler.PrecisionMinute())
                 ConsoleHelper.Info("   RunNext: ", $"{job.Value.Schedule.GetNextOccurrence(DateTime.Now):MM/dd/yyyy hh:mm tt}");
             else
-                ConsoleHelper.Info("   RunLast: ", $"{job.Value.LastRunTime.ToLocalTime():MM/dd/yyyy hh:mm tt}");
+            {
+                if (job.Value.LastRunTime != default)
+                    ConsoleHelper.Info("   RunLast: ", $"{job.Value.LastRunTime.ToLocalTime():MM/dd/yyyy hh:mm tt}");
+                else
+                    ConsoleHelper.Info("   RunLast: ", $"Processing...");
+            }
+
+            ConsoleHelper.Info("  Filename: ", $"\"{job.Value.Settings.Filename}\"");
             ConsoleHelper.Info("", "-------", "Contract", "-------");
             ConsoleHelper.Info("ScriptHash: ", $"{job.Value.Settings.Contract.ScriptHash}");
             ConsoleHelper.Info("    Method: ", $"{job.Value.Settings.Contract.Method}");

@@ -37,6 +37,6 @@ public partial class CronPlugin : Plugin
         if (system.Settings.Network != CronPluginSettings.Current.Network)
             return;
         NeoSystem = system;
-        CronPluginSettings.Current.Jobs.ToList().ForEach(CreateJob);
+        LoadJobs();
     }
 }

@@ -4,6 +4,7 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
+using Microsoft.Extensions.Configuration;
 using NCrontab;
 using Neo.ConsoleService;
 using Neo.Plugins.Cron.Jobs;
@@ -12,6 +13,26 @@ namespace Neo.Plugins.Cron;
 
 public partial class CronPlugin
 {
+    private void LoadJobs()
+    {
+        if (Directory.Exists(CronPluginSettings.Current.JobsPath) == false)
+            return;
+        foreach (var filename in Directory.EnumerateFiles(CronPluginSettings.Current.JobsPath, "*.job", SearchOption.AllDirectories))
+        {
+            try
+            {
+                var jobConfigRoot = new ConfigurationBuilder()
+                    .AddJsonFile(filename, false, false)
+                    .Build();
+                CreateJob(CronJobSettings.Load(jobConfigRoot, filename));
+            }
+            catch (InvalidDataException)
+            {
+                ConsoleHelper.Error($"Cron:Job:InvalidDataFormat::\"{filename}\"");
+            }
+        }
+    }
+
     private void CreateJob(CronJobSettings settings)
     {
         try
@@ -25,7 +46,6 @@ public partial class CronPlugin
                 settings.Contract.Method = settings.Contract.Method.Length > 1 ?
                     settings.Contract.Method[0].ToString().ToLowerInvariant() + settings.Contract.Method[1..] :
                     settings.Contract.Method[0].ToString().ToLowerInvariant();
-                settings.Contract.Params ??= Array.Empty<CronJobContractParameterSettings>();
                 var cTask = CronTask.Create(settings);
                 if (cTask.Wallet == null)
                     ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"Invalid password.\"");
@@ -33,7 +53,7 @@ public partial class CronPlugin
                 {
                     var taskSchedule = CrontabSchedule.TryParse(settings.Expression);
                     if (taskSchedule != null)
-                        _ = _scheduler.TryAdd(new CronEntry(taskSchedule, cTask), out _);
+                        _ = _scheduler.TryAdd(new CronEntry(taskSchedule, cTask, settings), out _);
                     else
                         ConsoleHelper.Error($"Cron:Job:[\"{settings.Name}\"]::\"Expression is invalid.\"");
                 }

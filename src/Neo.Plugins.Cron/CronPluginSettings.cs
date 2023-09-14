@@ -12,7 +12,7 @@ public class CronPluginSettings
 {
     public uint Network { get; private init; }
     public long MaxGasInvoke { get; private init; }
-    public CronJobSettings[] Jobs { get; private set; }
+    public string JobsPath { get; private init; }
 
     public static CronPluginSettings Current { get; private set; }
 
@@ -21,33 +21,44 @@ public class CronPluginSettings
         {
             Network = 860833102u,
             MaxGasInvoke = 20000000,
-            Jobs = Array.Empty<CronJobSettings>(),
+            JobsPath = "jobs",
         };
 
-    public static void Load(IConfigurationSection section)
-    {
+    public static void Load(IConfigurationSection section) =>
         Current = new()
         {
             Network = section.GetValue(nameof(Network), Default.Network),
             MaxGasInvoke = section.GetValue(nameof(MaxGasInvoke), Default.MaxGasInvoke),
-            Jobs = section.GetSection(nameof(Jobs)).Get<CronJobSettings[]>() ?? Default.Jobs,
+            JobsPath = section.GetValue(nameof(JobsPath), Default.JobsPath),
         };
-    }
 }
 
 public class CronJobSettings
 {
+    public string Filename { get; set; }
     public string Name { get; set; }
     public string Expression { get; set; }
+    public bool RunOnce { get; set; }
     public CronJobContractSettings Contract { get; set; }
     public CronJobWalletSettings Wallet { get; set; }
+
+    public static CronJobSettings Load(IConfiguration config, string filename) =>
+        new()
+        {
+            Filename = filename,
+            Name = config.GetValue<string>(nameof(Name)),
+            Expression = config.GetValue<string>(nameof(Expression)),
+            RunOnce = config.GetValue<bool>(nameof(RunOnce)),
+            Contract = config.GetSection(nameof(Contract)).Get<CronJobContractSettings>(),
+            Wallet = config.GetSection(nameof(Wallet)).Get<CronJobWalletSettings>(),
+        };
 }
 
 public class CronJobContractSettings
 {
     public string ScriptHash { get; set; }
     public string Method { get; set; }
-    public CronJobContractParameterSettings[] Params { get; set; }
+    public CronJobContractParameterSettings[] Params { get; set; } = Array.Empty<CronJobContractParameterSettings>();
 }
 
 public class CronJobContractParameterSettings

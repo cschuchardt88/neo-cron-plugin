@@ -8,7 +8,7 @@ Crontab task scheduler for executing blockchain tasks.
   - [ ] Create
 - Invoke Method (_Contract_)
   - [x] Basic (_No Parameters_)
-  - [ ] With Parameter(s)
+  - [x] With Parameter(s)
   - [ ] Multi-Methods
   - [ ] Transfer(s)
 - Triggers (_on Event_)

@@ -4,15 +4,14 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-using Neo.Ledger;
 using Neo.Plugins.Cron.Jobs;
 
 namespace Neo.Plugins.Cron;
 
 public partial class CronPlugin : Plugin
 {
-    public override string Name => "CronJob";
-    public override string Description => "Cron job task scheduler for invoking contracts.";
+    public override string Name => "Crontab";
+    public override string Description => "Crontab task scheduler for executing blockchain tasks.";
 
     internal static NeoSystem NeoSystem { get; private set; }
 
@@ -20,15 +19,11 @@ public partial class CronPlugin : Plugin
 
     public CronPlugin()
     {
-        Blockchain.Committing += OnBlockchainCommitting;
-        Blockchain.Committed += OnBlockchainCommitted;
         _scheduler = new();
     }
 
     public override void Dispose()
     {
-        Blockchain.Committing -= OnBlockchainCommitting;
-        Blockchain.Committed -= OnBlockchainCommitted;
         _scheduler.Dispose();
         GC.SuppressFinalize(this);
     }
@@ -41,6 +36,6 @@ public partial class CronPlugin : Plugin
         if (system.Settings.Network != CronPluginSettings.Current.Network)
             return;
         NeoSystem = system;
-        CronPluginSettings.Current.Jobs.ToList().ForEach(CreateJob);
+        LoadJobs();
     }
 }

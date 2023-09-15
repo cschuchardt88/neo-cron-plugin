@@ -8,14 +8,14 @@ using Akka.Actor;
 using Neo.ConsoleService;
 using Neo.Cryptography.ECC;
 using Neo.Network.P2P.Payloads;
-using Neo.Plugins.Cron.Jobs;
+using Neo.Plugins.Crontab.Jobs;
 using Neo.SmartContract;
 using Neo.SmartContract.Native;
 using Neo.VM;
 using Neo.Wallets;
 using System.Numerics;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 
 internal static class WalletUtils
 {

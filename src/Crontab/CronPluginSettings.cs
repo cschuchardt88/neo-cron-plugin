@@ -6,13 +6,13 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 
 public class CronPluginSettings
 {
     public uint Network { get; private init; }
     public long MaxGasInvoke { get; private init; }
-    public string JobsPath { get; private init; }
+    public CronPluginJobSettings Job { get; private init; }
 
     public static CronPluginSettings Current { get; private set; }
 
@@ -21,7 +21,11 @@ public class CronPluginSettings
         {
             Network = 860833102u,
             MaxGasInvoke = 20000000,
-            JobsPath = "jobs",
+            Job = new()
+            {
+                Path = "jobs",
+                Timeout = 15u,
+            }
         };
 
     public static void Load(IConfigurationSection section) =>
@@ -29,6 +33,6 @@ public class CronPluginSettings
         {
             Network = section.GetValue(nameof(Network), Default.Network),
             MaxGasInvoke = section.GetValue(nameof(MaxGasInvoke), Default.MaxGasInvoke),
-            JobsPath = section.GetValue(nameof(JobsPath), Default.JobsPath),
+            Job = section.GetSection(nameof(Job)).Get<CronPluginJobSettings>(),
         };
 }

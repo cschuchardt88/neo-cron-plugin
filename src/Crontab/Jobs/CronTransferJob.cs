@@ -7,7 +7,7 @@
 using Neo.Network.P2P.Payloads;
 using Neo.Wallets;
 
-namespace Neo.Plugins.Cron.Jobs;
+namespace Neo.Plugins.Crontab.Jobs;
 
 internal class CronTransferJob : ICronJob
 {
@@ -38,11 +38,8 @@ internal class CronTransferJob : ICronJob
             Wallet = Wallet.Open(settings.Wallet.Path, settings.Wallet.Password, CronPlugin.NeoSystem.Settings),
         };
 
-    public Task Run(CancellationToken cancellationToken = default)
+    public void Run()
     {
-        if (cancellationToken.IsCancellationRequested)
-            return Task.CompletedTask;
         WalletUtils.MakeTransferAndSendTx(this);
-        return Task.CompletedTask;
     }
 }

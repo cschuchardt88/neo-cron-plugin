@@ -6,7 +6,7 @@
 
 using Neo.Wallets;
 
-namespace Neo.Plugins.Cron.Jobs;
+namespace Neo.Plugins.Crontab.Jobs;
 
 internal interface ICronJob
 {
@@ -15,5 +15,5 @@ internal interface ICronJob
     string Expression { get; }
     Wallet Wallet { get; }
     UInt160 Sender { get; } 
-    Task Run(CancellationToken cancellationToken = default);
+    void Run();
 }

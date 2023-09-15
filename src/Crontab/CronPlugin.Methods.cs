@@ -7,17 +7,17 @@
 using Microsoft.Extensions.Configuration;
 using NCrontab;
 using Neo.ConsoleService;
-using Neo.Plugins.Cron.Jobs;
+using Neo.Plugins.Crontab.Jobs;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 
 public partial class CronPlugin
 {
     private void LoadJobs()
     {
-        if (Directory.Exists(CronPluginSettings.Current.JobsPath) == false)
+        if (Directory.Exists(CronPluginSettings.Current.Job.Path) == false)
             return;
-        foreach (var filename in Directory.EnumerateFiles(CronPluginSettings.Current.JobsPath, "*.job", SearchOption.AllDirectories))
+        foreach (var filename in Directory.EnumerateFiles(CronPluginSettings.Current.Job.Path, "*.job", SearchOption.AllDirectories))
         {
             try
             {

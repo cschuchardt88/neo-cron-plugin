@@ -6,7 +6,7 @@
 
 using Neo.Wallets;
 
-namespace Neo.Plugins.Cron.Jobs;
+namespace Neo.Plugins.Crontab.Jobs;
 
 internal class CronBasicJob : ICronJob
 {
@@ -27,11 +27,8 @@ internal class CronBasicJob : ICronJob
             Sender = UInt160.Parse(settings.Wallet.Account),
         };
 
-    public Task Run(CancellationToken cancellationToken = default)
+    public void Run()
     {
-        if (cancellationToken.IsCancellationRequested)
-            return Task.CompletedTask;
         WalletUtils.MakeInvokeAndSendTx(this);
-        return Task.CompletedTask;
     }
 }

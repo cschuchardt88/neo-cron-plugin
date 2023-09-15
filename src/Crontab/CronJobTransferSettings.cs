@@ -6,7 +6,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 
 internal class CronJobTransferSettings : ICronJobSettings
 {

@@ -4,11 +4,12 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab.Jobs;
 
-public class CronJobWalletSettings
+internal enum CronJobType : byte
 {
-    public string Path { get; set; }
-    public string Password { get; set; }
-    public string Account { get; set; }
+    Basic = 0x00,
+    Transfer = 0x01,
+    CreateAddress = 0x02,
+    CreateWallet = 0x03,
 }

@@ -2,6 +2,9 @@
   "PluginConfiguration": {
     "Network": 894710606,
     "MaxGasInvoke": 2000000000,
-    "JobsPath": "jobs"
+    "Job": {
+      "Path": "jobs",
+      "Timeout": 15
+    }
   }
 }

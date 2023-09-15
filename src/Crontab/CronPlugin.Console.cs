@@ -5,9 +5,9 @@
 // the main directory of the project for more details.
 
 using Neo.ConsoleService;
-using Neo.Plugins.Cron.Jobs;
+using Neo.Plugins.Crontab.Jobs;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 public partial class CronPlugin
 {
     [ConsoleCommand("crontab jobs list", Category = "Crontab Commands", Description = "List all the crontab jobs.")]

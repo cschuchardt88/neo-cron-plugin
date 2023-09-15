@@ -10,18 +10,19 @@ directories.
 ## Template (_*.job_) File
 ```json
 {
+  "Type": "",
   "Name": "",
   "Expression": "",
   "RunOnce": false,
-  "Contract": {
-    "ScriptHash": "",
-    "Method": "",
-    "Params": []
-  },
   "Wallet": {
     "Path": "",
     "Password": "",
     "Account": ""
+  },
+  "Contract": {
+    "ScriptHash": "",
+    "Method": "",
+    "Params": []
   }
 }
 ```
@@ -29,8 +30,9 @@ directories.
 ## Job Config
 | Property | Type | Description |
 | ---: | :---: | :--- |
+|Type|enum|`Basic` or `Transfer`|
 |Name|string|is the name of the job.|
-|Expression|string|is the crontab expression. _example: "* * * * *"_|
+|Expression|string|is the crontab expression.|
 |RunOnce|boolean|Only execute the job once.|
 |Contract|object|See [details](#contract-section).|
 |Wallet|object|See [details](#wallet-section).|
@@ -38,7 +40,7 @@ directories.
 ## Contract Section
 | Property | Type | Description |
 | ---: | :---: | :--- |
-|ScriptHash|string|Smart contract `hash160`. _example: 0x0313bdad26721ae6867df516139d4e52f749f360_|
+|ScriptHash|string|Smart contract `hash160`.|
 |Method|string|Smart contract method/function that gets invoked at the given timeframe.|
 |Params|array|is an array of parameter objects. see [details](#contract-parameters).|
 

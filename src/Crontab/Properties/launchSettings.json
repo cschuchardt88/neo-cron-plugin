@@ -5,8 +5,8 @@
     },
     "neo-cli": {
       "commandName": "Executable",
-      "executablePath": "C:\\tmp\\neo-cli\\neo-cli.exe",
-      "workingDirectory": "C:\\tmp\\neo-cli"
+      "executablePath": "D:\\Crypto\\tools\\neo\\neo-cli-testnet-playground\\neo-cli.exe",
+      "workingDirectory": "D:\\Crypto\\tools\\neo\\neo-cli-testnet-playground"
     }
   }
 }

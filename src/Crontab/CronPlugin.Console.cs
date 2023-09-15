@@ -40,7 +40,8 @@ public partial class CronPlugin
                 ConsoleHelper.Info("ScriptHash: ", $"{contractSettings.Contract.ScriptHash}");
                 ConsoleHelper.Info("    Method: ", $"{contractSettings.Contract.Method}");
                 ConsoleHelper.Info("Parameters: ", $"[{string.Join(", ", contractSettings.Contract.Params.Select(s => $"\"{s.Value}\""))}]");
-            } else if (job.Value.Settings.GetType() == typeof(CronJobTransferSettings))
+            }
+            else if (job.Value.Settings.GetType() == typeof(CronJobTransferSettings))
             {
                 var transferSettings = job.Value.Settings as CronJobTransferSettings;
                 ConsoleHelper.Info("", "-------", "Transfer", "-------");

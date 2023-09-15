@@ -13,33 +13,50 @@ namespace Neo.Plugins.Crontab;
 
 public partial class CronPlugin
 {
-    private void LoadJobs()
+    private FileSystemWatcher _fileSystemWatcher;
+
+    private void StartFileWatcher()
+    {
+        _fileSystemWatcher = new FileSystemWatcher(CronPluginSettings.Current.Job.Path)
+        {
+            Filter = "*.job",
+            IncludeSubdirectories = true,
+            EnableRaisingEvents = true,
+        };
+
+        _fileSystemWatcher.Created += OnCreated;
+    }
+
+    private void SearchForJobs()
     {
         if (Directory.Exists(CronPluginSettings.Current.Job.Path) == false)
             return;
         foreach (var filename in Directory.EnumerateFiles(CronPluginSettings.Current.Job.Path, "*.job", SearchOption.AllDirectories))
+            LoadJobs(filename);
+    }
+
+    private void LoadJobs(string filename)
+    {
+        try
         {
-            try
-            {
-                var jobConfigRoot = new ConfigurationBuilder()
+            var jobConfigRoot = new ConfigurationBuilder()
                     .AddJsonFile(filename, false, false)
                     .Build();
-                switch (jobConfigRoot.GetValue(nameof(ICronJob.Type), CronJobType.Basic))
-                {
-                    case CronJobType.Basic:
-                        CreateBasicJob(CronJobBasicSettings.Load(jobConfigRoot, filename));
-                        break;
-                    case CronJobType.Transfer:
-                        CreateTransferJob(CronJobTransferSettings.Load(jobConfigRoot, filename));
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch (InvalidDataException)
+            switch (jobConfigRoot.GetValue(nameof(ICronJob.Type), CronJobType.Basic))
             {
-                ConsoleHelper.Error($"Cron:Job:InvalidDataFormat::\"{filename}\"");
+                case CronJobType.Basic:
+                    CreateBasicJob(CronJobBasicSettings.Load(jobConfigRoot, filename));
+                    break;
+                case CronJobType.Transfer:
+                    CreateTransferJob(CronJobTransferSettings.Load(jobConfigRoot, filename));
+                    break;
+                default:
+                    break;
             }
+        }
+        catch (InvalidDataException)
+        {
+            ConsoleHelper.Error($"Cron:Job:InvalidDataFormat::\"{filename}\"");
         }
     }
 
@@ -49,7 +66,11 @@ public partial class CronPlugin
         {
             if (File.Exists(settings.Wallet.Path) == false)
                 ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"{settings.Wallet.Path} does not exist.\"");
-            
+            var cTask = CronTransferJob.Create(settings);
+            if (cTask.Wallet == null)
+                ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"Invalid password.\"");
+            else
+                CreateJobEntry(settings, cTask);
         }
         catch (FormatException)
         {
@@ -74,13 +95,7 @@ public partial class CronPlugin
                 if (cTask.Wallet == null)
                     ConsoleHelper.Error($"Cron:Job[\"{settings.Name}\"]::\"Invalid password.\"");
                 else
-                {
-                    var taskSchedule = CrontabSchedule.TryParse(settings.Expression);
-                    if (taskSchedule != null)
-                        _ = _scheduler.TryAdd(new CronEntry(taskSchedule, cTask, settings), out _);
-                    else
-                        ConsoleHelper.Error($"Cron:Job:[\"{settings.Name}\"]::\"Expression is invalid.\"");
-                }
+                    CreateJobEntry(settings, cTask);
             }
         }
         catch (FormatException)

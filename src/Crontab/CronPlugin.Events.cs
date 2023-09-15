@@ -6,11 +6,13 @@
 
 namespace Neo.Plugins.Crontab;
 
-internal interface ICronJobSettings
+public partial class CronPlugin
 {
-    string Filename { get; set; }
-    string Name { get; set; }
-    string Expression { get; set; }
-    bool RunOnce { get; set; }
-    CronJobWalletSettings Wallet { get; set; }
+    private void OnCreated(object sender, FileSystemEventArgs e)
+    {
+        if (e.ChangeType != WatcherChangeTypes.Created)
+            return;
+
+        LoadJobs(e.FullPath);
+    }
 }

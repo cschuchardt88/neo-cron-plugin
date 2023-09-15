@@ -8,6 +8,6 @@ namespace Neo.Plugins.Crontab;
 
 public class CronPluginJobSettings
 {
-    public string Path { get; internal init; }
-    public uint Timeout { get; internal init; }
+    public string Path { get; set; }
+    public uint Timeout { get; set; }
 }

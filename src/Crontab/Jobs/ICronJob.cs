@@ -14,6 +14,6 @@ internal interface ICronJob
     string Name { get; }
     string Expression { get; }
     Wallet Wallet { get; }
-    UInt160 Sender { get; } 
+    UInt160 Sender { get; }
     void Run();
 }

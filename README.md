@@ -1,3 +1,10 @@
+[![Static Badge](https://img.shields.io/badge/license-MIT-green)](/LICENSE)
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/cschuchardt88/neo-cron-plugin)
+![GitHub all releases](https://img.shields.io/github/downloads/cschuchardt88/neo-cron-plugin/total)
+
+
+
+
 # neo-cron-plugin
 Crontab task scheduler for executing blockchain tasks.
 

@@ -6,8 +6,7 @@ Add `*.job` file to the path of `JobsPath` in the _config.json_. In this
 location the plugin will pull all files; including ones from other
 directories.
 
-
-## Template (_*.job_) File
+## Basic Template (_*.job_) File
 ```json
 {
   "Type": "",
@@ -27,6 +26,28 @@ directories.
 }
 ```
 
+## Transfer Template (_*.job_) File
+```json
+{
+  "Type": "Transfer",
+  "Name": "",
+  "Expression": "",
+  "RunOnce": false,
+  "Wallet": {
+    "Path": "",
+    "Password": "",
+    "Account": ""
+  },
+  "Transfer": {
+    "AssetId": "",
+    "SendTo": "",
+    "SendAmount": 0.00,
+    "Comment": null,
+    "Signers": []
+  }
+}
+```
+
 ## Job Config
 | Property | Type | Description |
 | ---: | :---: | :--- |
@@ -36,6 +57,15 @@ directories.
 |RunOnce|boolean|Only execute the job once.|
 |Contract|object|See [details](#contract-section).|
 |Wallet|object|See [details](#wallet-section).|
+
+## Transfer Section
+| Property | Type | Description |
+| ---: | :---: | :--- |
+|AssetId|string|Smart contract `hash160`.|
+|SendTo|string|Smart contract `hash160`.|
+|SendAmount|decimal| non-negative number.|
+|Comment|string|This is the `data` field in a transfer.|
+|Signers|Array| An Array of strings as smart contract `hash160`. _Defaults to wallet account_.|
 
 ## Contract Section
 | Property | Type | Description |

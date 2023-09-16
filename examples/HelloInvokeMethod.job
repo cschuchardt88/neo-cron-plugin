@@ -1,15 +1,16 @@
 {
-  "Name": "SayHelloWorld",
+  "Type": "Basic",
+  "Name": "HelloInvokeMethod",
   "Expression": "* * * * *",
   "RunOnce": true,
-  "Contract": {
-    "ScriptHash": "0x0313bdad26721ae6867df516139d4e52f749f360",
-    "Method": "sayHello",
-    "Params": []
-  },
   "Wallet": {
     "Path": "wallets/main.json",
     "Password": "main",
     "Account": "0x2dfa6249a7b8ee132370f0385165339982e52e53"
+  },
+  "Contract": {
+    "ScriptHash": "0x0313bdad26721ae6867df516139d4e52f749f360",
+    "Method": "sayHello",
+    "Params": []
   }
 }

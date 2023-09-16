@@ -8,40 +8,66 @@ using Akka.Actor;
 using Neo.ConsoleService;
 using Neo.Cryptography.ECC;
 using Neo.Network.P2P.Payloads;
-using Neo.Plugins.Cron.Jobs;
+using Neo.Plugins.Crontab.Jobs;
 using Neo.SmartContract;
 using Neo.SmartContract.Native;
 using Neo.VM;
 using Neo.Wallets;
 using System.Numerics;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 
 internal static class WalletUtils
 {
-    public static void MakeAndSendTx(CronTask cronTask)
+    public static void MakeTransferAndSendTx(CronTransferJob transferStep)
     {
-        if (cronTask != null || (cronTask.Wallet != null && cronTask.Sender != null))
+        var asset = new AssetDescriptor(CronPlugin.NeoSystem.StoreView, CronPlugin.NeoSystem.Settings, transferStep.TokenHash);
+        var amount = new BigDecimal(transferStep.SendAmount, asset.Decimals);
+
+        try
+        {
+            var tx = transferStep.Wallet.MakeTransaction(CronPlugin.NeoSystem.StoreView, new[]
+            {
+                new TransferOutput()
+                {
+                    AssetId = transferStep.TokenHash,
+                    Value = amount,
+                    ScriptHash = transferStep.SendTo,
+                    Data = transferStep.Comment,
+                }
+            }, transferStep.Sender, transferStep.Signers);
+            SignAndSendTx(transferStep.Wallet, tx);
+        }
+        catch (Exception ex)
+        {
+            ConsoleHelper.Error($"Cron:Job[\"{transferStep.Name}\"]::\"{ex.Message}\"");
+        }
+
+    }
+
+    public static void MakeInvokeAndSendTx(CronBasicJob basicStep)
+    {
+        if (basicStep != null || (basicStep.Wallet != null && basicStep.Sender != null))
         {
             try
             {
                 var tx = new Transaction()
                 {
-                    Signers = new[] { new Signer() { Account = cronTask.Sender, Scopes = WitnessScope.CalledByEntry } },
+                    Signers = new[] { new Signer() { Account = basicStep.Sender, Scopes = WitnessScope.CalledByEntry } },
                     Attributes = Array.Empty<TransactionAttribute>(),
                     Witnesses = Array.Empty<Witness>(),
                 };
-                if (OnInvokeMethod(cronTask.Contract, tx) == false)
-                    ConsoleHelper.Error($"Cron:Job[\"{cronTask.Name}\"]::\"Virtual machine invoke method failed.\"");
+                if (OnInvokeMethod(basicStep.Contract, tx) == false)
+                    ConsoleHelper.Error($"Cron:Job[\"{basicStep.Name}\"]::\"Virtual machine invoke method failed.\"");
                 else
                 {
-                    tx = cronTask.Wallet.MakeTransaction(CronPlugin.NeoSystem.StoreView, tx.Script, cronTask.Sender, tx.Signers, maxGas: CronPluginSettings.Current.MaxGasInvoke);
-                    SignAndSendTx(cronTask.Wallet, tx);
+                    tx = basicStep.Wallet.MakeTransaction(CronPlugin.NeoSystem.StoreView, tx.Script, basicStep.Sender, tx.Signers, maxGas: CronPluginSettings.Current.MaxGasInvoke);
+                    SignAndSendTx(basicStep.Wallet, tx);
                 }
             }
             catch (Exception ex)
             {
-                ConsoleHelper.Error($"Cron:Job[\"{cronTask.Name}\"]::\"{ex.Message}\"");
+                ConsoleHelper.Error($"Cron:Job[\"{basicStep.Name}\"]::\"{ex.Message}\"");
             }
         }
     }

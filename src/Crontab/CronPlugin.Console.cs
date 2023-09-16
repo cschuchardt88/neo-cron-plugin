@@ -5,9 +5,9 @@
 // the main directory of the project for more details.
 
 using Neo.ConsoleService;
-using Neo.Plugins.Cron.Jobs;
+using Neo.Plugins.Crontab.Jobs;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 public partial class CronPlugin
 {
     [ConsoleCommand("crontab jobs list", Category = "Crontab Commands", Description = "List all the crontab jobs.")]
@@ -33,10 +33,24 @@ public partial class CronPlugin
             }
 
             ConsoleHelper.Info("  Filename: ", $"\"{job.Value.Settings.Filename}\"");
-            ConsoleHelper.Info("", "-------", "Contract", "-------");
-            ConsoleHelper.Info("ScriptHash: ", $"{job.Value.Settings.Contract.ScriptHash}");
-            ConsoleHelper.Info("    Method: ", $"{job.Value.Settings.Contract.Method}");
-            ConsoleHelper.Info("Parameters: ", $"[{string.Join(", ", job.Value.Settings.Contract.Params.Select(s => $"\"{s.Value}\""))}]");
+            if (job.Value.Settings.GetType() == typeof(CronJobBasicSettings))
+            {
+                var contractSettings = job.Value.Settings as CronJobBasicSettings;
+                ConsoleHelper.Info("", "-------", "Contract", "-------");
+                ConsoleHelper.Info("ScriptHash: ", $"{contractSettings.Contract.ScriptHash}");
+                ConsoleHelper.Info("    Method: ", $"{contractSettings.Contract.Method}");
+                ConsoleHelper.Info("Parameters: ", $"[{string.Join(", ", contractSettings.Contract.Params.Select(s => $"\"{s.Value}\""))}]");
+            }
+            else if (job.Value.Settings.GetType() == typeof(CronJobTransferSettings))
+            {
+                var transferSettings = job.Value.Settings as CronJobTransferSettings;
+                ConsoleHelper.Info("", "-------", "Transfer", "-------");
+                ConsoleHelper.Info("   AssetId: ", $"{transferSettings.Transfer.AssetId}");
+                ConsoleHelper.Info("        To: ", $"{transferSettings.Transfer.SendTo}");
+                ConsoleHelper.Info("    Amount: ", $"{transferSettings.Transfer.SendAmount}");
+                ConsoleHelper.Info("   Signers: ", $"[{string.Join(", ", transferSettings.Transfer.Signers.Select(s => $"\"{s}\""))})]");
+                ConsoleHelper.Info("      Data: ", $"\"{transferSettings.Transfer.Comment}\"");
+            }
             ConsoleHelper.Info("", "--------", "Wallet", "--------");
             ConsoleHelper.Info("      Path: ", $"\"{job.Value.Settings.Wallet.Path}\"");
             ConsoleHelper.Info("   Account: ", $"{job.Value.Settings.Wallet.Account}");

@@ -11,14 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E6DF2325-5
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab", "src\Neo.Plugins.Cron\Crontab.csproj", "{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{6AD914C9-3B8C-416D-8110-B83D2653E14B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{E38BDCAD-F703-4746-985A-EFAE2B3DCE51}"
 	ProjectSection(SolutionItems) = preProject
-		examples\HelloWorld\SayHelloWorld.job = examples\HelloWorld\SayHelloWorld.job
+		examples\HelloInvokeMethod.job = examples\HelloInvokeMethod.job
+		examples\HelloTransfer.job = examples\HelloTransfer.job
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab", "src\Crontab\Crontab.csproj", "{1B500F7A-36A3-42C2-9A77-470EDB25B638}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,17 +25,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{03A45B36-DC19-4F6E-ABA6-2EE485C713FA} = {3002EB89-0674-4B08-B155-353140FCCFCD}
-		{E38BDCAD-F703-4746-985A-EFAE2B3DCE51} = {6AD914C9-3B8C-416D-8110-B83D2653E14B}
+		{1B500F7A-36A3-42C2-9A77-470EDB25B638} = {3002EB89-0674-4B08-B155-353140FCCFCD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5ED09B52-78F7-49E0-8A0B-1A196F12118B}

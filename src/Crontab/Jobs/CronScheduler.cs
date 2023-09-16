@@ -7,7 +7,7 @@
 using NCrontab;
 using System.Collections.Concurrent;
 
-namespace Neo.Plugins.Cron.Jobs;
+namespace Neo.Plugins.Crontab.Jobs;
 
 internal class CronScheduler : IDisposable
 {
@@ -61,7 +61,8 @@ internal class CronScheduler : IDisposable
 
             if (_tasks.TryGetValue(now, out var jobs) == true)
             {
-                await Task.WhenAll(jobs.Select(s => Task.Run(async () => await s.Run(token)))).ConfigureAwait(false);
+                using var cancelTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(CronPluginSettings.Current.Job.Timeout));
+                await Task.WhenAll(jobs.Select(s => Task.Run(s.Run, cancelTokenSource.Token))).ConfigureAwait(false);
                 _tasks.TryRemove(now, out _);
             }
             lastRun = now;
@@ -95,7 +96,7 @@ internal class CronScheduler : IDisposable
 internal class CronEntry
 {
     public ICronJob Job { get; }
-    public CronJobSettings Settings { get; }
+    public ICronJobSettings Settings { get; }
     public CrontabSchedule Schedule { get; }
     public bool IsEnabled { get; internal set; }
     public DateTime LastRunTime { get; internal set; }
@@ -103,7 +104,7 @@ internal class CronEntry
     internal CronEntry(
         CrontabSchedule schedule,
         ICronJob job,
-        CronJobSettings settings)
+        ICronJobSettings settings)
     {
         Schedule = schedule;
         Job = job;

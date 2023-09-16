@@ -4,9 +4,9 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-using Neo.Plugins.Cron.Jobs;
+using Neo.Plugins.Crontab.Jobs;
 
-namespace Neo.Plugins.Cron;
+namespace Neo.Plugins.Crontab;
 
 public partial class CronPlugin : Plugin
 {
@@ -36,6 +36,7 @@ public partial class CronPlugin : Plugin
         if (system.Settings.Network != CronPluginSettings.Current.Network)
             return;
         NeoSystem = system;
-        LoadJobs();
+        SearchForJobs();
+        StartFileWatcher();
     }
 }

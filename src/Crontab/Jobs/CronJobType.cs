@@ -4,9 +4,12 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-namespace Neo.Plugins.Cron.Jobs;
+namespace Neo.Plugins.Crontab.Jobs;
 
-internal interface ICronJob
+internal enum CronJobType : byte
 {
-    Task Run(CancellationToken cancellationToken = default);
+    Basic = 0x00,
+    Transfer = 0x01,
+    CreateAddress = 0x02,
+    CreateWallet = 0x03,
 }

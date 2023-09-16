@@ -6,17 +6,18 @@
 
 using Neo.Wallets;
 
-namespace Neo.Plugins.Cron.Jobs;
+namespace Neo.Plugins.Crontab.Jobs;
 
-internal class CronTask : ICronJob
+internal class CronBasicJob : ICronJob
 {
+    public CronJobType Type => CronJobType.Basic;
     public string Name { get; private init; }
     public string Expression { get; private init; }
     public CronContract Contract { get; private init; }
     public Wallet Wallet { get; private init; }
     public UInt160 Sender { get; private init; }
 
-    public static CronTask Create(CronJobSettings settings) =>
+    public static CronBasicJob Create(CronJobBasicSettings settings) =>
         new()
         {
             Name = settings.Name,
@@ -26,11 +27,8 @@ internal class CronTask : ICronJob
             Sender = UInt160.Parse(settings.Wallet.Account),
         };
 
-    public Task Run(CancellationToken cancellationToken = default)
+    public void Run()
     {
-        if (cancellationToken.IsCancellationRequested)
-            return Task.CompletedTask;
-        WalletUtils.MakeAndSendTx(this);
-        return Task.CompletedTask;
+        WalletUtils.MakeInvokeAndSendTx(this);
     }
 }

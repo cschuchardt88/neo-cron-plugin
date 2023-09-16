@@ -21,6 +21,7 @@ internal class CronTransferJob : ICronJob
     public string Comment { get; init; }
     public Wallet Wallet { get; init; }
     public UInt160 Sender { get; init; }
+    public DateTime LastRunTimestamp { get; private set; }
 
     public static CronTransferJob Create(CronJobTransferSettings settings) =>
         new()
@@ -38,8 +39,9 @@ internal class CronTransferJob : ICronJob
             Wallet = Wallet.Open(settings.Wallet.Path, settings.Wallet.Password, CronPlugin.NeoSystem.Settings),
         };
 
-    public void Run()
+    public void Run(DateTime timerNow)
     {
+        LastRunTimestamp = timerNow;
         WalletUtils.MakeTransferAndSendTx(this);
     }
 }

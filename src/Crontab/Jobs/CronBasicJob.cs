@@ -16,6 +16,7 @@ internal class CronBasicJob : ICronJob
     public CronContract Contract { get; private init; }
     public Wallet Wallet { get; private init; }
     public UInt160 Sender { get; private init; }
+    public DateTime LastRunTimestamp { get; private set; }
 
     public static CronBasicJob Create(CronJobBasicSettings settings) =>
         new()
@@ -23,12 +24,17 @@ internal class CronBasicJob : ICronJob
             Name = settings.Name,
             Expression = settings.Expression,
             Contract = new(UInt160.Parse(settings.Contract.ScriptHash), settings.Contract.Method, settings.Contract.Params),
-            Wallet = Wallet.Open(settings.Wallet.Path, settings.Wallet.Password, CronPlugin.NeoSystem.Settings),
-            Sender = UInt160.Parse(settings.Wallet.Account),
+            Wallet = settings.Wallet != null ?
+                Wallet.Open(settings.Wallet.Path, settings.Wallet.Password, CronPlugin.NeoSystem.Settings) :
+                null,
+            Sender = settings.Wallet != null ?
+                UInt160.Parse(settings.Wallet.Account) :
+                null,
         };
 
-    public void Run()
+    public void Run(DateTime timerNow)
     {
+        LastRunTimestamp = timerNow;
         WalletUtils.MakeInvokeAndSendTx(this);
     }
 }

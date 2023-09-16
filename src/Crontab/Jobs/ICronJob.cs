@@ -15,5 +15,6 @@ internal interface ICronJob
     string Expression { get; }
     Wallet Wallet { get; }
     UInt160 Sender { get; }
-    void Run();
+    DateTime LastRunTimestamp { get; }
+    void Run(DateTime timerNow);
 }

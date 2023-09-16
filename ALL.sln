@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{6A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab", "src\Crontab\Crontab.csproj", "{1B500F7A-36A3-42C2-9A77-470EDB25B638}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4DB93B25-158A-40C8-A19D-F2E5E4409B15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crontab.Test", "tests\Crontab.Test\Crontab.Test.csproj", "{01DAE7D5-28B9-410E-8216-0A5421E924D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +33,17 @@ Global
 		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B500F7A-36A3-42C2-9A77-470EDB25B638}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01DAE7D5-28B9-410E-8216-0A5421E924D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01DAE7D5-28B9-410E-8216-0A5421E924D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01DAE7D5-28B9-410E-8216-0A5421E924D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01DAE7D5-28B9-410E-8216-0A5421E924D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1B500F7A-36A3-42C2-9A77-470EDB25B638} = {3002EB89-0674-4B08-B155-353140FCCFCD}
+		{01DAE7D5-28B9-410E-8216-0A5421E924D0} = {4DB93B25-158A-40C8-A19D-F2E5E4409B15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5ED09B52-78F7-49E0-8A0B-1A196F12118B}

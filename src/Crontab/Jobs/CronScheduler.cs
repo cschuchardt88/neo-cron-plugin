@@ -57,6 +57,16 @@ internal class CronScheduler : IDisposable
         }
     }
 
+    public bool TryGetKey(string filename, out Guid jobEntryId)
+    {
+        var jobEntryKvp = _entries.SingleOrDefault(s => s.Value.Settings.Filename.Equals(filename, StringComparison.InvariantCultureIgnoreCase));
+        jobEntryId = jobEntryKvp.Key;
+        if (jobEntryKvp.Key == Guid.Empty && jobEntryKvp.Value == null)
+            return false;
+        else
+            return true;
+    }
+
     public bool ContainsTask(ICronJob job) =>
         _tasks.Values.SelectMany(sm => sm).Contains(job);
 

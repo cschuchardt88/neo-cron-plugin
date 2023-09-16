@@ -8,11 +8,20 @@ namespace Neo.Plugins.Crontab;
 
 public partial class CronPlugin
 {
-    private void OnCreated(object sender, FileSystemEventArgs e)
+    private void OnJobFileCreated(object sender, FileSystemEventArgs e)
     {
         if (e.ChangeType != WatcherChangeTypes.Created)
             return;
 
         LoadJobs(e.FullPath);
+    }
+
+    private void OnJobFileDeleted(object sender, FileSystemEventArgs e)
+    {
+        if (e.ChangeType != WatcherChangeTypes.Deleted)
+            return;
+
+        if (_scheduler.TryGetKey(e.FullPath, out var jobEntryId))
+            _ = _scheduler.TryRemove(jobEntryId, out _);
     }
 }

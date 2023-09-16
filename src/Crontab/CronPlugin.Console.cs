@@ -7,6 +7,7 @@
 using Neo.ConsoleService;
 
 namespace Neo.Plugins.Crontab;
+
 public partial class CronPlugin
 {
     [ConsoleCommand("crontab disable", Category = "Crontab Commands", Description = "Disables a crontab job from running.")]

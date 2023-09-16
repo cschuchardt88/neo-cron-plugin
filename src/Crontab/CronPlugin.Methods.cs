@@ -24,7 +24,8 @@ public partial class CronPlugin
             EnableRaisingEvents = true,
         };
 
-        _fileSystemWatcher.Created += OnCreated;
+        _fileSystemWatcher.Created += OnJobFileCreated;
+        _fileSystemWatcher.Deleted += OnJobFileDeleted;
     }
 
     private void SearchForJobs()

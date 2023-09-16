@@ -1,20 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <PackageId>Neo.Plugins.Crontab</PackageId>
-    <RootNamespace>Neo.Plugins.Crontab</RootNamespace>
+    <VersionPrefix>1.0.0-beta</VersionPrefix>
     <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Neo.Plugins.Crontab</RootNamespace>
+    <PackageId>Neo.Plugins.Crontab</PackageId>
+    <PackageTags>NEO;Blockchain;Plugins</PackageTags>
+    <PackageProjectUrl>https://github.com/cschuchardt88/neo-cron-plugin</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/cschuchardt88/neo-cron-plugin.git</RepositoryUrl>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 

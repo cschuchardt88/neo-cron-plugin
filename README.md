@@ -1,5 +1,5 @@
 <p align="center" width="100%">
-    <img src="https://github.com/cschuchardt88/neo-cron-plugin/blob/master/imgs/logo-red.png" alt="Crontab-logo" />
+    <img src="https://github.com/cschuchardt88/neo-cron-plugin/blob/master/imgs/logo-transparent.png" alt="Crontab-logo" />
 </p>
 
 ```bash

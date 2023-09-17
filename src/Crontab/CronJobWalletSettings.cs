@@ -11,4 +11,5 @@ public class CronJobWalletSettings
     public string Path { get; set; }
     public string Password { get; set; }
     public string Account { get; set; }
+    public string[] Signers { get; set; }
 }

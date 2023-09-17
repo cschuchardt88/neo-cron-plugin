@@ -11,6 +11,5 @@ public class CronTransferSettings
     public string AssetId { get; set; }
     public string SendTo { get; set; }
     public string SendAmount { get; set; }
-    public string[] Signers { get; set; }
     public string Comment { get; set; }
 }

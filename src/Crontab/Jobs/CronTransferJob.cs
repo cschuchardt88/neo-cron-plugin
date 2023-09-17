@@ -17,10 +17,10 @@ internal class CronTransferJob : ICronJob
     public UInt160 TokenHash { get; init; }
     public UInt160 SendTo { get; init; }
     public decimal SendAmount { get; init; }
-    public Signer[] Signers { get; init; }
     public string Comment { get; init; }
     public Wallet Wallet { get; init; }
     public UInt160 Sender { get; init; }
+    public Signer[] Signers { get; init; }
     public DateTime LastRunTimestamp { get; private set; }
 
     public static CronTransferJob Create(CronJobTransferSettings settings) =>
@@ -32,11 +32,9 @@ internal class CronTransferJob : ICronJob
             SendTo = UInt160.Parse(settings.Transfer.SendTo),
             SendAmount = decimal.Parse(settings.Transfer.SendAmount),
             Sender = UInt160.Parse(settings.Wallet.Account),
-            Signers = settings.Transfer.Signers == null || settings.Transfer.Signers.Length == 0 ?
-                new[] { new Signer() { Account = UInt160.Parse(settings.Wallet.Account), Scopes = WitnessScope.CalledByEntry } } :
-                settings.Transfer.Signers.Select(s => new Signer() { Account = UInt160.Parse(s), Scopes = WitnessScope.CalledByEntry }).ToArray(),
             Comment = settings.Transfer.Comment,
             Wallet = Wallet.Open(settings.Wallet.Path, settings.Wallet.Password, CronPlugin.NeoSystem.Settings),
+            Signers = settings.Wallet?.Signers?.Select(s => new Signer() { Account = UInt160.Parse(s), Scopes = WitnessScope.CalledByEntry }).ToArray() ?? Array.Empty<Signer>(),
         };
 
     public void Run(DateTime timerNow)

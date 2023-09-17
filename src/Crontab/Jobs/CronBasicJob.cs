@@ -4,6 +4,7 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
+using Neo.Network.P2P.Payloads;
 using Neo.Wallets;
 
 namespace Neo.Plugins.Crontab.Jobs;
@@ -16,6 +17,7 @@ internal class CronBasicJob : ICronJob
     public CronContract Contract { get; private init; }
     public Wallet Wallet { get; private init; }
     public UInt160 Sender { get; private init; }
+    public Signer[] Signers { get; private init; }
     public DateTime LastRunTimestamp { get; private set; }
 
     public static CronBasicJob Create(CronJobBasicSettings settings) =>
@@ -30,6 +32,7 @@ internal class CronBasicJob : ICronJob
             Sender = settings.Wallet != null ?
                 UInt160.Parse(settings.Wallet.Account) :
                 null,
+            Signers = settings.Wallet?.Signers?.Select(s => new Signer() { Account = UInt160.Parse(s), Scopes = WitnessScope.CalledByEntry }).ToArray() ?? Array.Empty<Signer>(),
         };
 
     public void Run(DateTime timerNow)

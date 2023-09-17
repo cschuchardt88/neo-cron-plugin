@@ -4,10 +4,12 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
+using Neo.SmartContract;
+
 namespace Neo.Plugins.Crontab;
 
 public class CronJobContractParameterSettings
 {
-    public string Type { get; set; }
+    public ContractParameterType Type { get; set; }
     public string Value { get; set; }
 }

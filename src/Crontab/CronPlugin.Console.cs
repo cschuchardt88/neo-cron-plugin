@@ -40,7 +40,7 @@ public partial class CronPlugin
     private void OnListCrontabJobs()
     {
         if (_scheduler.Entries.Any() == true)
-            ConsoleHelper.Info("---------", "Jobs", "---------");
+            ConsoleHelper.Info("--------------------------------------------");
 
         foreach (var entry in _scheduler.Entries)
         {
@@ -70,19 +70,19 @@ public partial class CronPlugin
                 ConsoleHelper.Info("  Asset Id: ", $"{transferSettings.Transfer.AssetId}");
                 ConsoleHelper.Info("   Send To: ", $"{transferSettings.Transfer.SendTo}");
                 ConsoleHelper.Info("    Amount: ", $"{transferSettings.Transfer.SendAmount}");
-                ConsoleHelper.Info("   Signers: ", $"[{string.Join(", ", transferSettings.Transfer.Signers.Select(s => $"\"{s}\""))}]");
                 ConsoleHelper.Info("   Comment: ", $"{transferSettings.Transfer.Comment}");
             }
             ConsoleHelper.Info("", "--------", "Wallet", "--------");
             ConsoleHelper.Info("      Path: ", $"{entry.Value.Settings.Wallet.Path}");
             ConsoleHelper.Info("   Account: ", $"{entry.Value.Settings.Wallet.Account}");
+            ConsoleHelper.Info("   Signers: ", $"[{string.Join(", ", entry.Value.Job.Signers.Select(s => $"\"{s.Account}\""))}]");
 
             if (_scheduler.Entries.Count > 1)
-                ConsoleHelper.Info();
+                ConsoleHelper.Info("--------------------------------------------");
         }
 
-        if (_scheduler.Entries.Any() == true)
-            ConsoleHelper.Info("----------------------");
+        if (_scheduler.Entries.Count == 1)
+            ConsoleHelper.Info("--------------------------------------------");
 
         ConsoleHelper.Info("", "Total: ", $"{_scheduler.Entries.Count}", " job(s).");
     }

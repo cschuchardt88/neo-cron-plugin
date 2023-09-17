@@ -6,98 +6,64 @@
 
 using Akka.Actor;
 using Neo.ConsoleService;
-using Neo.Cryptography.ECC;
 using Neo.Network.P2P.Payloads;
 using Neo.Plugins.Crontab.Jobs;
 using Neo.SmartContract;
-using Neo.SmartContract.Native;
-using Neo.VM;
 using Neo.Wallets;
-using System.Numerics;
 
 namespace Neo.Plugins.Crontab;
 
 internal static class WalletUtils
 {
-    public static void MakeTransferAndSendTx(CronTransferJob transferStep)
+    public static void MakeTransferAndSendTx(CronTransferJob transferJob)
     {
-        var asset = new AssetDescriptor(CronPlugin.NeoSystem.StoreView, CronPlugin.NeoSystem.Settings, transferStep.TokenHash);
-        var amount = new BigDecimal(transferStep.SendAmount, asset.Decimals);
+        var asset = new AssetDescriptor(CronPlugin.NeoSystem.StoreView, CronPlugin.NeoSystem.Settings, transferJob.TokenHash);
+        var amount = new BigDecimal(transferJob.SendAmount, asset.Decimals);
 
         try
         {
-            var tx = transferStep.Wallet.MakeTransaction(CronPlugin.NeoSystem.StoreView, new[]
+            var tx = transferJob.Wallet.MakeTransaction(CronPlugin.NeoSystem.StoreView, new[]
             {
                 new TransferOutput()
                 {
-                    AssetId = transferStep.TokenHash,
+                    AssetId = transferJob.TokenHash,
                     Value = amount,
-                    ScriptHash = transferStep.SendTo,
-                    Data = transferStep.Comment,
+                    ScriptHash = transferJob.SendTo,
+                    Data = transferJob.Comment,
                 }
-            }, transferStep.Sender, transferStep.Signers);
-            SignAndSendTx(transferStep.Wallet, tx);
+            }, transferJob.Sender, transferJob.Signers);
+            SignAndSendTx(transferJob.Wallet, tx);
         }
         catch (Exception ex)
         {
-            ConsoleHelper.Error($"Cron:Job[\"{transferStep.Name}\"]::\"{ex.Message}\"");
+            ConsoleHelper.Error($"Cron:Job[\"{transferJob.Name}\"]::\"{ex.Message}\"");
         }
 
     }
 
-    public static void MakeInvokeAndSendTx(CronBasicJob basicStep)
+    public static void MakeInvokeAndSendTx(CronBasicJob basicJob)
     {
-        if (basicStep != null || (basicStep.Wallet != null && basicStep.Sender != null))
+        if (basicJob != null || (basicJob.Wallet != null && basicJob.Sender != null))
         {
             try
             {
-                var tx = new Transaction()
-                {
-                    Signers = new[] { new Signer() { Account = basicStep.Sender, Scopes = WitnessScope.CalledByEntry } },
-                    Attributes = Array.Empty<TransactionAttribute>(),
-                    Witnesses = Array.Empty<Witness>(),
-                };
-                if (OnInvokeMethod(basicStep.Contract, tx) == false)
-                    ConsoleHelper.Error($"Cron:Job[\"{basicStep.Name}\"]::\"Virtual machine invoke method failed.\"");
+                if (ContractUtils.BuildInvokeMethod(basicJob.Contract, out var script) == false)
+                    ConsoleHelper.Error($"Cron:Job[\"{basicJob.Name}\"]::\"Can not find method {basicJob.Contract.Method} with parameter count {basicJob.Contract.Params.Length}.\"");
                 else
                 {
-                    tx = basicStep.Wallet.MakeTransaction(CronPlugin.NeoSystem.StoreView, tx.Script, basicStep.Sender, tx.Signers, maxGas: CronPluginSettings.Current.MaxGasInvoke);
-                    SignAndSendTx(basicStep.Wallet, tx);
+                    var tx = basicJob.Wallet.MakeTransaction(
+                        CronPlugin.NeoSystem.StoreView,
+                        script,
+                        basicJob.Sender,
+                        basicJob.Signers,
+                        maxGas: CronPluginSettings.Current.MaxGasInvoke);
+
+                    SignAndSendTx(basicJob.Wallet, tx);
                 }
             }
             catch (Exception ex)
             {
-                ConsoleHelper.Error($"Cron:Job[\"{basicStep.Name}\"]::\"{ex.Message}\"");
-            }
-        }
-    }
-
-    public static bool OnInvokeMethod(CronContract cronContract, Transaction tx)
-    {
-        var contract = NativeContract.ContractManagement.GetContract(CronPlugin.NeoSystem.StoreView, cronContract.ScriptHash);
-        if (contract == null)
-            return false;
-        else
-        {
-            if (contract.Manifest.Abi.GetMethod(cronContract.Method, cronContract.Params.Length) == null)
-                return false;
-            else
-            {
-                var args = cronContract.Params.Select(ConvertToContractParameter).ToArray();
-                using var sb = new ScriptBuilder();
-                if (args.Length > 0)
-                    sb.EmitDynamicCall(cronContract.ScriptHash, cronContract.Method, args);
-                else
-                    sb.EmitDynamicCall(cronContract.ScriptHash, cronContract.Method);
-
-                tx.Script = sb.ToArray();
-
-                using var engine = ApplicationEngine.Run(
-                    tx.Script, CronPlugin.NeoSystem.StoreView,
-                    tx, settings: CronPlugin.NeoSystem.Settings,
-                    gas: CronPluginSettings.Current.MaxGasInvoke);
-
-                return engine.State != VMState.FAULT;
+                ConsoleHelper.Error($"Cron:Job[\"{basicJob.Name}\"]::\"{ex.Message}\"");
             }
         }
     }
@@ -110,53 +76,5 @@ internal static class WalletUtils
             tx.Witnesses = context.GetWitnesses();
             CronPlugin.NeoSystem.Blockchain.Tell(tx);
         }
-    }
-
-    public static ContractParameter ConvertToContractParameter(CronJobContractParameterSettings parameterSettings)
-    {
-        return parameterSettings.Type.ToLowerInvariant() switch
-        {
-            "bytearray" => new()
-            {
-                Type = ContractParameterType.ByteArray,
-                Value = Convert.FromBase64String(parameterSettings.Value),
-            },
-            "signature" => new()
-            {
-                Type = ContractParameterType.Signature,
-                Value = Convert.FromBase64String(parameterSettings.Value),
-            },
-            "boolean" => new()
-            {
-                Type = ContractParameterType.Boolean,
-                Value = bool.Parse(parameterSettings.Value),
-            },
-            "integer" => new()
-            {
-                Type = ContractParameterType.Integer,
-                Value = BigInteger.Parse(parameterSettings.Value),
-            },
-            "string" => new()
-            {
-                Type = ContractParameterType.String,
-                Value = parameterSettings.Value,
-            },
-            "hash160" => new()
-            {
-                Type = ContractParameterType.Hash160,
-                Value = UInt160.Parse(parameterSettings.Value),
-            },
-            "hash256" => new()
-            {
-                Type = ContractParameterType.Hash256,
-                Value = UInt256.Parse(parameterSettings.Value),
-            },
-            "publickey" => new()
-            {
-                Type = ContractParameterType.PublicKey,
-                Value = ECPoint.Parse(parameterSettings.Value, ECCurve.Secp256r1),
-            },
-            _ => throw new NotSupportedException($"{parameterSettings.Type} is not supported.")
-        };
     }
 }

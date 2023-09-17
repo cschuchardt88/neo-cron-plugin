@@ -64,7 +64,6 @@ Create a create file with any name with `.job` extension. Place file in
 |SendTo|string|**NEO** Wallet address. As `ScriptHash` format|
 |SendAmount|decimal|Non-negative number.|
 |Comment|string|`data` field in a transfer method. Unsure? Leave blank.|
-|Signers|Array|An Array of strings as smart contract `hash160`. Defaults to wallet account.|
 
 ## Contract Section
 | Property | Type | Description |
@@ -76,9 +75,10 @@ Create a create file with any name with `.job` extension. Place file in
 ## Wallet Section
 | Property | Type | Description |
 | ---: | :---: | :--- |
-|Path|string|file path plus filename with extension. Path is relative to where file `neo-cli.exe`|
+|Path|string|Full file name path. Path is relative to where `neo-cli.exe` is.|
 |Password|string|Password to open wallet file.|
-|Account|string|`hash160` of the account in the wallet. Transactions will be preformed with this account.|
+|Account|string|`hash160` of the account in the wallet. Transactions will be preformed with this account as sender and witness.|
+|Signers|Array|An Array of strings as ScriptHash `hash160`. Defaults to wallet account.|
 
 ## Contract Parameters
 | Property | Type | Description |

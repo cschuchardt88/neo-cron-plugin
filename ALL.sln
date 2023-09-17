@@ -7,7 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3002EB89-067
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E6DF2325-582C-4859-B3ED-8887A3326D3D}"
 	ProjectSection(SolutionItems) = preProject
-		docs\jobs.md = docs\jobs.md
+		docs\CONFIG_JSON.md = docs\CONFIG_JSON.md
+		docs\JOBS.md = docs\JOBS.md
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -21,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab", "src\Crontab\Cron
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4DB93B25-158A-40C8-A19D-F2E5E4409B15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crontab.Test", "tests\Crontab.Test\Crontab.Test.csproj", "{01DAE7D5-28B9-410E-8216-0A5421E924D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab.Test", "tests\Crontab.Test\Crontab.Test.csproj", "{01DAE7D5-28B9-410E-8216-0A5421E924D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

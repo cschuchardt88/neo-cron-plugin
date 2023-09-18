@@ -48,11 +48,11 @@ Have a feature you want to recommend for this project. Just create an
 
 # Install
 This plugin requires at least `neo-cli` version
-[3.6.0](https://github.com/neo-project/neo-node/releases). After you
-download and extract the `.zip` file.
+[3.6.0](https://github.com/neo-project/neo-node/releases).
 
 **Next Steps**
-1. _Open `neo-cli` directory._
+1. [Download](https://github.com/cschuchardt88/neo-cron-plugin/releases/download/v1.0.0/Crontab-v1.0.0.zip) and extract the `.zip` file.
+1. _Open `neo-cli` directory from [neo-cli](https://github.com/neo-project/neo-node/releases)._
 1. _Create a folder in the `Plugins` directory called `Crontab`._
 1. _Copy & Paste `Crontab.dll`, `config.json` and `NCrontab.dll` into `Plugins\Crontab` directory._
 1. _Edit `config.json` with your configuration. [More details](/docs/CONFIG_JSON.md)_

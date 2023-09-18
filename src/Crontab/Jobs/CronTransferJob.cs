@@ -5,6 +5,8 @@
 // the main directory of the project for more details.
 
 using Neo.Network.P2P.Payloads;
+using Neo.Plugins.Crontab.Settings;
+using Neo.Plugins.Crontab.Utils;
 using Neo.Wallets;
 
 namespace Neo.Plugins.Crontab.Jobs;
@@ -21,6 +23,7 @@ internal class CronTransferJob : ICronJob
     public Wallet Wallet { get; init; }
     public UInt160 Sender { get; init; }
     public Signer[] Signers { get; init; }
+    public DateTime NextRunTimestamp { get; set; }
     public DateTime LastRunTimestamp { get; private set; }
 
     public static CronTransferJob Create(CronJobTransferSettings settings) =>

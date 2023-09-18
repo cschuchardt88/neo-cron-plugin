@@ -6,8 +6,8 @@
 
 using NCrontab;
 using Neo;
-using Neo.Plugins.Crontab;
 using Neo.Plugins.Crontab.Jobs;
+using Neo.Plugins.Crontab.Settings;
 
 namespace Crontab.Test.Helpers;
 

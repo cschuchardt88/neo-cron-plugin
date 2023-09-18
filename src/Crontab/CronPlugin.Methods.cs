@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using NCrontab;
 using Neo.ConsoleService;
 using Neo.Plugins.Crontab.Jobs;
+using Neo.Plugins.Crontab.Settings;
 
 namespace Neo.Plugins.Crontab;
 

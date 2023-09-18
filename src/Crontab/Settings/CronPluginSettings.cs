@@ -6,7 +6,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace Neo.Plugins.Crontab;
+namespace Neo.Plugins.Crontab.Settings;
 
 public class CronPluginSettings
 {

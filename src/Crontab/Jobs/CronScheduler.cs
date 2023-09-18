@@ -4,6 +4,7 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
+using Neo.Plugins.Crontab.Settings;
 using System.Collections.Concurrent;
 
 namespace Neo.Plugins.Crontab.Jobs;
@@ -79,14 +80,15 @@ internal class CronScheduler : IDisposable
     private async Task WaitForTimer(CancellationToken token)
     {
         DateTime lastRun = default;
+
         while (await _timer.WaitForNextTickAsync(token) && token.IsCancellationRequested == false)
         {
+            _entries.Values.ToList().ForEach(LoadDateTimeOccurrences);
+
             var now = PrecisionMinute();
 
             if (lastRun == now)
                 continue;
-
-            _entries.Values.ToList().ForEach(LoadDateTimeOccurrences);
 
             if (_tasks.TryGetValue(now, out var jobs) == true)
             {
@@ -110,6 +112,7 @@ internal class CronScheduler : IDisposable
             {
                 _tasks[occurrence] = new() { entry.Job };
                 DisableEntryAfterRunOnce(entry);
+                entry.Job.NextRunTimestamp = occurrence;
             }
             else
             {
@@ -117,6 +120,7 @@ internal class CronScheduler : IDisposable
                 {
                     jobs.Add(entry.Job);
                     DisableEntryAfterRunOnce(entry);
+                    entry.Job.NextRunTimestamp = occurrence;
                 }
             }
         }

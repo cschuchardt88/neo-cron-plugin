@@ -18,5 +18,6 @@ internal interface ICronJob
     UInt160 Sender { get; }
     Signer[] Signers { get; }
     DateTime LastRunTimestamp { get; }
+    DateTime NextRunTimestamp { get; set; }
     void Run(DateTime timerNow);
 }

@@ -8,10 +8,11 @@ using Akka.Actor;
 using Neo.ConsoleService;
 using Neo.Network.P2P.Payloads;
 using Neo.Plugins.Crontab.Jobs;
+using Neo.Plugins.Crontab.Settings;
 using Neo.SmartContract;
 using Neo.Wallets;
 
-namespace Neo.Plugins.Crontab;
+namespace Neo.Plugins.Crontab.Utils;
 
 internal static class WalletUtils
 {
@@ -43,8 +44,7 @@ internal static class WalletUtils
 
     public static void MakeInvokeAndSendTx(CronBasicJob basicJob)
     {
-        if (basicJob != null || (basicJob.Wallet != null && basicJob.Sender != null))
-        {
+        if (basicJob != null || basicJob.Wallet != null && basicJob.Sender != null)
             try
             {
                 if (ContractUtils.BuildInvokeMethod(basicJob.Contract, out var script) == false)
@@ -65,7 +65,6 @@ internal static class WalletUtils
             {
                 ConsoleHelper.Error($"Cron:Job[\"{basicJob.Name}\"]::\"{ex.Message}\"");
             }
-        }
     }
 
     public static void SignAndSendTx(Wallet wallet, Transaction tx)

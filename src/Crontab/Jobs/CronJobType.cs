@@ -10,6 +10,4 @@ internal enum CronJobType : byte
 {
     Basic = 0x00,
     Transfer = 0x01,
-    CreateAddress = 0x02,
-    CreateWallet = 0x03,
 }

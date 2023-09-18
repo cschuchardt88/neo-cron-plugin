@@ -6,12 +6,13 @@
 
 using Neo.Cryptography.ECC;
 using Neo.Plugins.Crontab.Jobs;
+using Neo.Plugins.Crontab.Settings;
 using Neo.SmartContract;
 using Neo.SmartContract.Native;
 using Neo.VM;
 using System.Numerics;
 
-namespace Neo.Plugins.Crontab;
+namespace Neo.Plugins.Crontab.Utils;
 
 internal static class ContractUtils
 {

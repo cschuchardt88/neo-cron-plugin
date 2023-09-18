@@ -4,6 +4,8 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
+using Neo.Plugins.Crontab.Settings;
+
 namespace Neo.Plugins.Crontab.Jobs;
 
 internal class CronContract

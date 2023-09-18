@@ -5,6 +5,7 @@
 // the main directory of the project for more details.
 
 using Neo.ConsoleService;
+using Neo.Plugins.Crontab.Settings;
 
 namespace Neo.Plugins.Crontab;
 
@@ -50,6 +51,10 @@ public partial class CronPlugin
             ConsoleHelper.Info("  Schedule: ", $"{entry.Value.Settings.Expression}");
             ConsoleHelper.Info("   Enabled: ", $"{entry.Value.IsEnabled}");
             ConsoleHelper.Info("  Run Once: ", $"{entry.Value.Settings.RunOnce}");
+            if (entry.Value.Job.NextRunTimestamp != default)
+                ConsoleHelper.Info("  Next Run: ", $"{entry.Value.Job.NextRunTimestamp:MM/dd/yyyy hh:mm tt}");
+            else
+                ConsoleHelper.Info("  Next Run: ", $"N/A");
             if (entry.Value.Job.LastRunTimestamp != default)
                 ConsoleHelper.Info("  Last Run: ", $"{entry.Value.Job.LastRunTimestamp.ToLocalTime():MM/dd/yyyy hh:mm tt}");
             else

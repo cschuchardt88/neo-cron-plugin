@@ -5,6 +5,7 @@
 // the main directory of the project for more details.
 
 using NCrontab;
+using Neo.Plugins.Crontab.Settings;
 
 namespace Neo.Plugins.Crontab.Jobs;
 

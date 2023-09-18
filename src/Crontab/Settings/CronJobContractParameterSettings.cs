@@ -4,10 +4,12 @@
 // MIT software license, see the accompanying file LICENSE in
 // the main directory of the project for more details.
 
-namespace Neo.Plugins.Crontab.Jobs;
+using Neo.SmartContract;
 
-internal enum CronJobType : byte
+namespace Neo.Plugins.Crontab.Settings;
+
+public class CronJobContractParameterSettings
 {
-    Basic = 0x00,
-    Transfer = 0x01,
+    public ContractParameterType Type { get; set; }
+    public string Value { get; set; }
 }

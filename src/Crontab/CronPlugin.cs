@@ -5,13 +5,14 @@
 // the main directory of the project for more details.
 
 using Neo.Plugins.Crontab.Jobs;
+using Neo.Plugins.Crontab.Settings;
 
 namespace Neo.Plugins.Crontab;
 
 public partial class CronPlugin : Plugin
 {
     public override string Name => "Crontab";
-    public override string Description => "Crontab task scheduler for executing blockchain tasks.";
+    public override string Description => "Task scheduler for sending transactions to the blockchain.";
 
     internal static NeoSystem NeoSystem { get; private set; }
 

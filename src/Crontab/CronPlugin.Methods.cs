@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using NCrontab;
 using Neo.ConsoleService;
 using Neo.Plugins.Crontab.Jobs;
+using Neo.Plugins.Crontab.Settings;
 
 namespace Neo.Plugins.Crontab;
 
@@ -24,7 +25,8 @@ public partial class CronPlugin
             EnableRaisingEvents = true,
         };
 
-        _fileSystemWatcher.Created += OnCreated;
+        _fileSystemWatcher.Created += OnJobFileCreated;
+        _fileSystemWatcher.Deleted += OnJobFileDeleted;
     }
 
     private void SearchForJobs()

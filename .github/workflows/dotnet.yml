@@ -6,6 +6,12 @@ name: .NET
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.gitattributes'
+      - 'LICENSE'
+      - 'docs/**'
   pull_request:
     branches: [ "master" ]
 

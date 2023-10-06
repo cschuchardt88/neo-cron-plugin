@@ -3,7 +3,7 @@ In this section you will learn how to create and configure job(s).
 
 ## Create a Job
 Create a create file with any name with `.job` extension. Place file in
-`JobPath` location directory from [_config.json_](/docs/config_json.md) file.
+`JobPath` location directory from [_config.json_](/docs/CONFIG_JSON.md) file.
 
 ## Basic Template (_*.job_) File
 ```json

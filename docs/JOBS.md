@@ -15,7 +15,8 @@ Create a create file with any name with `.job` extension. Place file in
   "Wallet": {
     "Path": "",
     "Password": "",
-    "Account": ""
+    "Account": "",
+    "Signers": []
   },
   "Contract": {
     "ScriptHash": "",
@@ -35,14 +36,14 @@ Create a create file with any name with `.job` extension. Place file in
   "Wallet": {
     "Path": "",
     "Password": "",
-    "Account": ""
+    "Account": "",
+    "Signers": []
   },
   "Transfer": {
     "AssetId": "",
     "SendTo": "",
     "SendAmount": 0.00,
-    "Comment": null,
-    "Signers": []
+    "Comment": null
   }
 }
 ```

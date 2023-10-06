@@ -10,4 +10,5 @@ internal enum CronJobType : byte
 {
     Basic = 0x00,
     Transfer = 0x01,
+    VMScript = 0x02,
 }

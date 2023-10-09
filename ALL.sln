@@ -25,6 +25,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4DB93B25
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crontab.Test", "tests\Crontab.Test\Crontab.Test.csproj", "{01DAE7D5-28B9-410E-8216-0A5421E924D0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{5F52F78B-B16A-48DD-A596-F04805EAD78A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{755BB95F-C472-4246-ADC0-B0D37A7A0FDC}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{0A1E7E3B-B67E-4FDD-8C7E-9767B2E661D8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +61,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1B500F7A-36A3-42C2-9A77-470EDB25B638} = {3002EB89-0674-4B08-B155-353140FCCFCD}
 		{01DAE7D5-28B9-410E-8216-0A5421E924D0} = {4DB93B25-158A-40C8-A19D-F2E5E4409B15}
+		{755BB95F-C472-4246-ADC0-B0D37A7A0FDC} = {5F52F78B-B16A-48DD-A596-F04805EAD78A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5ED09B52-78F7-49E0-8A0B-1A196F12118B}

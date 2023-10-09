@@ -21,7 +21,10 @@ env:
 jobs:
   Test:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-11, macos-12, macos-13, ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022]
 
     steps:
     - uses: actions/checkout@v3
@@ -29,10 +32,10 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    - name: Check format
-      run: dotnet format --verify-no-changes --verbosity diagnostic
     - name: Restore dependencies
       run: dotnet restore
+    - name: Check format
+      run: dotnet format --no-restore --verify-no-changes --verbosity diagnostic
     - name: Build
       run: dotnet build --no-restore
     - name: Test

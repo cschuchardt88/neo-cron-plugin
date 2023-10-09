@@ -52,6 +52,8 @@ public partial class CronPlugin
                 case CronJobType.Transfer:
                     CreateTransferJob(CronJobTransferSettings.Load(jobConfigRoot, filename));
                     break;
+                case CronJobType.VMScript:
+                    break;
                 default:
                     break;
             }
